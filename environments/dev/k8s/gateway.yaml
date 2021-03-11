@@ -67,22 +67,6 @@ spec:
           number: 8095
   - match:
     - uri:
-        prefix: /api
-    route:
-    - destination:
-        host: eshop-backend
-        port:
-          number: 8090
-  - match:
-    - uri:
-        prefix: /static
-    route:
-    - destination:
-        host: eshop-backend
-        port:
-          number: 8090         
-  - match:
-    - uri:
         exact: /
     - uri:
         exact: /favicon.ico
@@ -93,5 +77,30 @@ spec:
     route:
     - destination:
         host: eshop-frontend
+        subset: v1
         port:
           number: 8080
+      weight: 50
+    - destination:
+        host: eshop-frontend
+        subset: v2
+        port:
+          number: 8080
+      weight: 50
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: eshop-frontend
+spec:
+  host: eshop-frontend
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+  subsets:
+  - name: v1
+    labels:
+      version: v1
+  - name: v2
+    labels:
+      version: v2
