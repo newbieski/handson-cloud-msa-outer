@@ -25,9 +25,9 @@ spec:
             - name: SPRING_RABBITMQ_HOST
               value: rabbitmq.default.svc.cluster.local
             - name: SPRING_RABBITMQ_USERNAME
-              value: <<rabbitmq username>>
+              value: eshop_rabbit
             - name: SPRING_RABBITMQ_PASSWORD
-              value: <<rabbitmq password>>
+              value: password
 ---
 apiVersion: v1
 kind: Service
